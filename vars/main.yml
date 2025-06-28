@@ -1,0 +1,3 @@
+---
+idempotent_dir: /etc/idempotent
+idempotent_file: "{{ idempotent_dir }}/disabled-unattended-upgrade.log"

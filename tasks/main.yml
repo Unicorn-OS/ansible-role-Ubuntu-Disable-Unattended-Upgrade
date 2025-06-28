@@ -1,0 +1,25 @@
+---
+# Guide: https://linuxconfig.org/disable-automatic-updates-on-ubuntu-22-04-jammy-jellyfish-linux
+
+- name: Disable the Unattended-Upgrades Service
+  ansible.builtin.shell: systemctl disable --now unattended-upgrades
+  args:
+    creates: "{{ idempotent_file }}"
+  become: true
+  notify: make idempotent
+
+- name: Create directory for idempotency
+  ansible.builtin.file:
+    path: "{{ idempotent_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ ansible_env.HOME }}"
+    group: "{{ ansible_env.HOME }}"
+  become: true
+
+- name: Edit the 20auto-upgrades File
+  ansible.builtin.replace:
+    path: /etc/apt/apt.conf.d/20auto-upgrades
+    regexp: '1'
+    replace: '0'
+  become: true

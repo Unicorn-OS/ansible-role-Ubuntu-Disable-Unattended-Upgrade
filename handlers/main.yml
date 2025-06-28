@@ -1,0 +1,6 @@
+---
+- name: make idempotent
+  ansible.builtin.file:
+    path: "{{ idempotent_file }}"
+    state: touch
+  become: true
